@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Navbar from "./Navbar";
 
 export default function Layout({ title, children }) {
   return (
@@ -7,7 +8,8 @@ export default function Layout({ title, children }) {
         <title>{title || "Toska"}</title>
       </Head>
 
-      {children}
+      <Navbar />
+      <div className="pt-6 md:pt-10">{children}</div>
     </div>
   );
 }
