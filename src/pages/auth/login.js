@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Card, Layout } from "../../components";
 import { Button, Input, Label } from "../../components/FormAttribute";
 import axios from "axios";
-
-axios.defaults.withCredentials = true;
+import { useSetRecoilState } from "recoil";
+import { authCheckState } from "../../store/authentication";
 
 export default function Login() {
+  const setAuth = useSetRecoilState(authCheckState);
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -14,18 +16,13 @@ export default function Login() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/sanctum/csrf-cookie`
-    );
-
-    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, form);
-
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/me`
-    );
-
-    console.log(data);
+    try {
+      await axios.get(`sanctum/csrf-cookie`);
+      await axios.post(`login`, form);
+      setAuth(true);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
