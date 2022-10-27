@@ -19,3 +19,7 @@ export const Button = ({ children, ...props }) => (
     {children}
   </button>
 );
+
+export const ErrorMessage = ({ message }) => (
+  <div className="mt-2 font-medium text-red-500 text-xs">{message}</div>
+);

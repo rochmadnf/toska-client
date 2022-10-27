@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Card, Layout } from "../../components";
-import { Button, Input, Label } from "../../components/FormAttribute";
+import {
+  Button,
+  ErrorMessage,
+  Input,
+  Label,
+} from "../../components/FormAttribute";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { authCheckState } from "../../store/authentication";
@@ -10,6 +15,7 @@ export default function Login() {
   const setAuth = useSetRecoilState(authCheckState);
   const { replace } = useRouter();
 
+  const [errors, setErrors] = useState([]);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -24,7 +30,7 @@ export default function Login() {
       setAuth(true);
       replace("/dashboard");
     } catch (error) {
-      console.log(error.message);
+      setErrors(error.response.data.errors);
     }
   };
 
@@ -44,6 +50,9 @@ export default function Login() {
                 id="email"
                 tabIndex={1}
               />
+              {errors && errors.email && (
+                <ErrorMessage message={errors.email} />
+              )}
             </div>
 
             <div className="mb-5">
@@ -57,6 +66,10 @@ export default function Login() {
                 id="password"
                 tabIndex={2}
               />
+
+              {errors && errors.password && (
+                <ErrorMessage message={errors.password} />
+              )}
             </div>
 
             <div className="mb-5 flex items-center">

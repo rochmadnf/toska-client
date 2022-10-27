@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { Card, Layout } from "../../components";
-import { Button, Input, Label } from "../../components/FormAttribute";
+import {
+  Button,
+  ErrorMessage,
+  Input,
+  Label,
+} from "../../components/FormAttribute";
 import { authCheckState } from "../../store/authentication";
 
 export default function Register() {
@@ -15,13 +20,17 @@ export default function Register() {
     password: "",
     password_confirmation: "",
   });
+  const [errors, setErrors] = useState([]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    await axios.post("/register", form);
-    setAuthCheck(form);
-    replace("/dashboard");
+    try {
+      await axios.post("/register", form);
+      setAuthCheck(form);
+      replace("/dashboard");
+    } catch (error) {
+      setErrors(error.response.data.errors);
+    }
   };
   return (
     <Layout title="Register">
@@ -39,6 +48,7 @@ export default function Register() {
                 id="name"
                 tabIndex={1}
               />
+              {errors && errors.name && <ErrorMessage message={errors.name} />}
             </div>
 
             <div className="mb-5">
@@ -52,6 +62,9 @@ export default function Register() {
                 id="email"
                 tabIndex={1}
               />
+              {errors && errors.email && (
+                <ErrorMessage message={errors.email} />
+              )}
             </div>
 
             <div className="mb-5">
@@ -65,6 +78,9 @@ export default function Register() {
                 id="password"
                 tabIndex={1}
               />
+              {errors && errors.password && (
+                <ErrorMessage message={errors.password} />
+              )}
             </div>
 
             <div className="mb-5">
