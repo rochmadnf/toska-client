@@ -39,7 +39,7 @@ export default function Navbar() {
                     alt={authUser.contents.name}
                   />
                 </div>
-                <span className="pb-1">{authUser.contents.email}</span>
+                <span className="pb-1">{authUser.contents.name}</span>
               </div>
               <div>
                 <button
