@@ -4,9 +4,11 @@ import { Button, Input, Label } from "../../components/FormAttribute";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { authCheckState } from "../../store/authentication";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const setAuth = useSetRecoilState(authCheckState);
+  const { replace } = useRouter();
 
   const [form, setForm] = useState({
     email: "",
@@ -20,6 +22,7 @@ export default function Login() {
       await axios.get(`sanctum/csrf-cookie`);
       await axios.post(`login`, form);
       setAuth(true);
+      replace("/dashboard");
     } catch (error) {
       console.log(error.message);
     }

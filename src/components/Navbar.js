@@ -1,12 +1,22 @@
+import axios from "axios";
 import Link from "next/link";
-import { useRecoilValueLoadable } from "recoil";
-import { authUserState } from "../store/authentication";
+import { useRouter } from "next/router";
+import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { authCheckState, authUserState } from "../store/authentication";
 
 const menuStyle =
   "block px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200";
 
 export default function Navbar() {
+  const setAuthCheck = useSetRecoilState(authCheckState);
   const authUser = useRecoilValueLoadable(authUserState);
+  const { back } = useRouter();
+
+  const logoutHandler = async () => {
+    await axios.post("logout");
+    setAuthCheck(false);
+    back();
+  };
   return (
     <nav className="border-b py-3">
       <div className="max-w-screen-lg mx-auto">
@@ -31,9 +41,14 @@ export default function Navbar() {
                 </div>
                 <span className="pb-1">{authUser.contents.email}</span>
               </div>
-              <Link href="/logout">
-                <a className={menuStyle}>Logout</a>
-              </Link>
+              <div>
+                <button
+                  className={`${menuStyle} focus:outline-none`}
+                  onClick={logoutHandler}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           ) : (
             <div className="flex items-center">
