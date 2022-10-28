@@ -10,12 +10,12 @@ const menuStyle =
 export default function Navbar() {
   const setAuthCheck = useSetRecoilState(authCheckState);
   const authUser = useRecoilValueLoadable(authUserState);
-  const { back } = useRouter();
+  const { replace } = useRouter();
 
   const logoutHandler = async () => {
     await axios.post("logout");
     setAuthCheck(false);
-    back();
+    replace("/login");
   };
   return (
     <nav className="border-b py-3">

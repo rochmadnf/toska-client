@@ -27,7 +27,7 @@ export default function Login() {
     try {
       await axios.get(`sanctum/csrf-cookie`);
       await axios.post(`login`, form);
-      setAuth(true);
+      setAuth(form);
       replace("/dashboard");
     } catch (error) {
       setErrors(error.response.data.errors);
