@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <Layout title={"Login"}>
+    <Layout middleware="guest" title={"Login"}>
       <div className="mx-auto max-w-screen-sm">
         <Card header={"Login"}>
           <form onSubmit={submitHandler}>

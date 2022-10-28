@@ -33,7 +33,7 @@ export default function Register() {
     }
   };
   return (
-    <Layout title="Register">
+    <Layout middleware="guest" title="Register">
       <div className="mx-auto max-w-screen-sm">
         <Card header={"Register"}>
           <form onSubmit={submitHandler}>

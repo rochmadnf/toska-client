@@ -5,7 +5,7 @@ import { useRecoilValueLoadable } from "recoil";
 import { authUserState } from "../store/authentication";
 import Navbar from "./Navbar";
 
-export default function Layout({ title, children, middleware = "guest" }) {
+export default function Layout({ title, children, middleware }) {
   const { replace } = useRouter();
   const authUser = useRecoilValueLoadable(authUserState);
 
